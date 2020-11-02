@@ -5,10 +5,10 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 import copy
 import threading
 import warnings
+from six import with_metaclass
 
 from django.core.exceptions import ImproperlyConfigured
 from django.utils.encoding import force_text
-from django.utils.six import with_metaclass
 
 from haystack import connection_router, connections
 from haystack.constants import Indexable  # NOQA — exposed as a public export
