@@ -2,15 +2,13 @@
 
 from __future__ import absolute_import, division, print_function, unicode_literals
 
-from django.contrib.gis.geos import GEOSGeometry
+from django.contrib.gis.measure import D
 from django.test import TestCase
 
 from haystack import connections
 from haystack.exceptions import SpatialError
 from haystack.query import SearchQuerySet
 from haystack.utils.geo import (
-    D,
-    Point,
     ensure_distance,
     ensure_geometry,
     ensure_point,
@@ -23,6 +21,8 @@ from .models import Checkin
 
 class SpatialUtilitiesTestCase(TestCase):
     def test_ensure_geometry(self):
+        from django.contrib.gis.geos import GEOSGeometry, Point
+
         self.assertRaises(
             SpatialError, ensure_geometry, [38.97127105172941, -95.23592948913574]
         )
@@ -31,6 +31,8 @@ class SpatialUtilitiesTestCase(TestCase):
         ensure_geometry(Point(-95.23592948913574, 38.97127105172941))
 
     def test_ensure_point(self):
+        from django.contrib.gis.geos import GEOSGeometry, Point
+
         self.assertRaises(
             SpatialError, ensure_point, [38.97127105172941, -95.23592948913574]
         )
@@ -42,6 +44,8 @@ class SpatialUtilitiesTestCase(TestCase):
         ensure_point(Point(-95.23592948913574, 38.97127105172941))
 
     def test_ensure_wgs84(self):
+        from django.contrib.gis.geos import GEOSGeometry, Point
+
         self.assertRaises(
             SpatialError,
             ensure_wgs84,
@@ -71,6 +75,8 @@ class SpatialUtilitiesTestCase(TestCase):
         ensure_distance(D(mi=5))
 
     def test_generate_bounding_box(self):
+        from django.contrib.gis.geos import Point
+
         downtown_bottom_left = Point(-95.23947, 38.9637903)
         downtown_top_right = Point(-95.23362278938293, 38.973081081164715)
         ((min_lat, min_lng), (max_lat, max_lng)) = generate_bounding_box(
@@ -82,6 +88,8 @@ class SpatialUtilitiesTestCase(TestCase):
         self.assertEqual(max_lng, -95.23362278938293)
 
     def test_generate_bounding_box_crossing_line_date(self):
+        from django.contrib.gis.geos import Point
+
         downtown_bottom_left = Point(95.23947, 38.9637903)
         downtown_top_right = Point(-95.23362278938293, 38.973081081164715)
         ((south, west), (north, east)) = generate_bounding_box(
@@ -98,6 +106,8 @@ class SpatialSolrTestCase(TestCase):
     using = "solr"
 
     def setUp(self):
+        from django.contrib.gis.geos import Point
+
         super(SpatialSolrTestCase, self).setUp()
         self.ui = connections[self.using].get_unified_index()
         self.checkindex = self.ui.get_index(Checkin)

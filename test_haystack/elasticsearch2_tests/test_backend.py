@@ -19,7 +19,6 @@ from haystack.inputs import AutoQuery
 from haystack.models import SearchResult
 from haystack.query import SQ, RelatedSearchQuerySet, SearchQuerySet
 from haystack.utils import log as logging
-from haystack.utils.geo import Point
 from haystack.utils.loading import UnifiedIndex
 
 from ..core.models import AFourthMockModel, AnotherMockModel, ASixthMockModel, MockModel
@@ -582,6 +581,7 @@ class Elasticsearch2SearchBackendTestCase(TestCase):
         settings.HAYSTACK_LIMIT_TO_REGISTERED_MODELS = old_limit_to_registered_models
 
     def test_spatial_search_parameters(self):
+        from django.contrib.gis.geos import Point
         p1 = Point(1.23, 4.56)
         kwargs = self.sb.build_search_kwargs(
             "*:*",

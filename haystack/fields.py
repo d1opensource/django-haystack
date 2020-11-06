@@ -2,10 +2,11 @@
 from __future__ import absolute_import, division, print_function, unicode_literals
 
 import re
+import six
 from inspect import ismethod
 
 from django.template import loader
-from django.utils import datetime_safe, six
+from django.utils import datetime_safe
 
 from haystack.exceptions import SearchFieldError
 from haystack.utils import get_model_ct_tuple
@@ -259,7 +260,8 @@ class LocationField(SearchField):
         return "%s,%s" % (pnt_lat, pnt_lng)
 
     def convert(self, value):
-        from haystack.utils.geo import ensure_point, Point
+        from django.contrib.gis.geos import Point
+        from haystack.utils.geo import ensure_point
 
         if value is None:
             return None

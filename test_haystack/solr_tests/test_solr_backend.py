@@ -19,7 +19,6 @@ from haystack.exceptions import SkipDocument
 from haystack.inputs import AltParser, AutoQuery, Raw
 from haystack.models import SearchResult
 from haystack.query import SQ, RelatedSearchQuerySet, SearchQuerySet
-from haystack.utils.geo import Point
 from haystack.utils.loading import UnifiedIndex
 
 from ..core.models import AFourthMockModel, AnotherMockModel, ASixthMockModel, MockModel
@@ -561,6 +560,8 @@ class SolrSearchBackendTestCase(TestCase):
         )
 
     def test_spatial_search_parameters(self):
+        from django.contrib.gis.geos import Point
+
         p1 = Point(1.23, 4.56)
         kwargs = self.sb.build_search_kwargs(
             "*:*",

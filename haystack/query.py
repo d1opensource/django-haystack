@@ -3,9 +3,8 @@
 from __future__ import absolute_import, division, print_function, unicode_literals
 
 import operator
+import six
 import warnings
-
-from django.utils import six
 
 from haystack import connection_router, connections
 from haystack.backends import SQ

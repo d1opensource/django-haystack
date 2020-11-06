@@ -20,6 +20,10 @@ FUZZINESS = getattr(settings, "HAYSTACK_FUZZINESS", "AUTO")
 FUZZY_MIN_SIM = getattr(settings, "HAYSTACK_FUZZY_MIN_SIM", 0.5)
 FUZZY_MAX_EXPANSIONS = getattr(settings, "HAYSTACK_FUZZY_MAX_EXPANSIONS", 50)
 
+# Default values on whoosh
+FUZZY_WHOOSH_MIN_PREFIX = getattr(settings, 'HAYSTACK_FUZZY_WHOOSH_MIN_PREFIX', 3)
+FUZZY_WHOOSH_MAX_EDITS = getattr(settings, 'HAYSTACK_FUZZY_WHOOSH_MAX_EDITS', 2)
+
 # Valid expression extensions.
 VALID_FILTERS = set(
     [
@@ -45,6 +49,7 @@ REPR_OUTPUT_SIZE = 20
 
 # Number of SearchResults to load at a time.
 ITERATOR_LOAD_PER_QUERY = getattr(settings, "HAYSTACK_ITERATOR_LOAD_PER_QUERY", 10)
+
 
 # A marker class in the hierarchy to indicate that it handles search data.
 class Indexable(object):

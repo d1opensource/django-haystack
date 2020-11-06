@@ -3,14 +3,13 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 
 import datetime
 
-import elasticsearch
+from django.contrib.gis.measure import D
 from django.test import TestCase
 
 from haystack import connections
 from haystack.inputs import Exact
 from haystack.models import SearchResult
 from haystack.query import SQ, SearchQuerySet
-from haystack.utils.geo import D, Point
 
 from ..core.models import AnotherMockModel, MockModel
 
@@ -139,7 +138,7 @@ class Elasticsearch5SearchQueryTestCase(TestCase):
         self.assertEqual(self.sq.clean("hello AND world"), "hello and world")
         self.assertEqual(
             self.sq.clean(
-                'hello AND OR NOT TO + - && || ! ( ) { } [ ] ^ " ~ * ? : \ / world'
+                r'hello AND OR NOT TO + - && || ! ( ) { } [ ] ^ " ~ * ? : \ / world'
             ),
             'hello and or not to \\+ \\- \\&& \\|| \\! \\( \\) \\{ \\} \\[ \\] \\^ \\" \\~ \\* \\? \\: \\\\ \\/ world',
         )
@@ -183,6 +182,8 @@ class Elasticsearch5SearchQueryTestCase(TestCase):
         self.assertEqual(sqs.query.narrow_queries.pop(), "foo:(moof)")
 
     def test_build_query_with_dwithin_range(self):
+        from django.contrib.gis.geos import Point
+
         backend = connections["elasticsearch"].get_backend()
         search_kwargs = backend.build_search_kwargs(
             "where",

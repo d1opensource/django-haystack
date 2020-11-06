@@ -2,11 +2,11 @@
 
 from __future__ import absolute_import, division, print_function, unicode_literals
 
+import six
 import warnings
 
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
-from django.utils import six
 
 import haystack
 from haystack.backends import (
@@ -561,7 +561,7 @@ class SolrSearchBackend(BaseSearchBackend):
                     additional_fields["_point_of_origin"] = distance_point
 
                     if raw_result.get("__dist__"):
-                        from haystack.utils.geo import Distance
+                        from django.contrib.gis.measure import Distance
 
                         additional_fields["_distance"] = Distance(
                             km=float(raw_result["__dist__"])
